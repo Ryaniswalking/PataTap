@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Patatap Final</title>
+
+    <link rel="stylesheet" href="assets/css/circles.css">
+
+    <script src="assets/js/lib/paper-full.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js"></script>
+
+    <script type="text/paperscript" canvas="myCanvas">
+
+
+var keyData = {
+    a: {
+        color: "purple",
+        animation: createSmallCircles,
+        sound: new Howl({
+            src: ['music/sounds/bubbles.mp3']
+        })
+    },
+    s: {
+        color: "green",
+        animation: createManyCircle,
+        sound: new Howl({
+            src: ['music/sounds/clay.mp3']
+        })               
+    },
+    d: {
+        color: "yellow",
+        animation: createCircle,
+        sound: new Howl({
+            src: ['music/sounds/confetti.mp3']
+        })
+    },
+    f:{
+        color: "#50b0fb",
+        animation: createTriangle,
+        sound: new Howl({
+            src: ['music/C/strike.mp3']
+        })
+    },
+    g:{
+        color: "#f92c7e",
+        animation: createDecagon,
+        sound: new Howl({
+            src: ['music/c/suspension.mp3']
+        })
+    },
+    h:{
+        color: "#95c129",
+        animation: createIncreasingRectangle,
+        sound: new Howl({
+            src: ['music/B/prism-2.mp3']
+        })
+    },
+    j:{
+        color: "#a8c88d",
+        animation: createSqiggles,
+        sound: new Howl({
+            src: ['music/B/splits.mp3']
+        })
+    },
+    k:{
+        color: "#03960d",
+        sound: new Howl({
+            src: ['music/B/ufo.mp3']
+        })
+    },
+    l:{
+        color: "#c49311",
+        sound: new Howl({
+            src: ['music/B/veil.mp3']
+        })
+    },
+    q:{
+        color: "#53da25",
+        sound: new Howl({
+            src: ['music/D/strike.mp3']
+        })
+    },
+    w:{
+        color: "#b1486c",
+        sound: new Howl({
+            src: ['music/F/squiggle.mp3']
+        })
+    },
+    e:{
+        color: "#16c46b",
+        sound: new Howl({
+            src: ['music/F/strike.mp3']
+        })
+    },
+    r:{
+        color: "#dc1fef",
+        sound: new Howl({
+            src: ['music/sounds/pinwheel.mp3']
+        })
+    },
+    t:{
+        color: "#683071",
+        sound: new Howl({
+            src: ['music/sounds/piston-1.mp3']
+        })
+    },
+    y:{
+        color: "#ab296f",
+        sound: new Howl({
+            src: ['music/sounds/piston-2.mp3']
+        })
+    },
+    u:{
+        color: "#e9d970",
+        sound: new Howl({
+            src: ['music/sounds/piston-3.mp3']
+        })
+    },
+    i:{
+        color: "#c39cd0",
+        sound: new Howl({
+            src: ['music/sounds/timer.mp3']
+        })
+    },
+    o:{
+        color: "#08145b",
+        sound: new Howl({
+            src: ['music/sounds/ufo.mp3']
+        })
+    },
+    p:{
+        color: "#7f97fc",
+        sound: new Howl({
+            src: ['music/sounds/glimmer.mp3']
+        })
+    },
+    z: {
+        color: "teal",
+        sound: new Howl({
+            src: ['music/sounds/splits.mp3']
+        })
+    },
+    x:{
+        color: "#ca7e92",
+        sound: new Howl({
+            src: ['music/sounds/corona.mp3']
+        })
+    },
+    c:{
+        color: "#b1e8fc",
+        sound: new Howl({
+            src: ['music/sounds/flash-1.mp3']
+        })
+    },
+    v:{
+        color: "#381e22",
+        sound: new Howl({
+            src: ['music/sounds/flash-2.mp3']
+        })
+    },
+    b:{
+        color: "#bd3a35",
+        sound: new Howl({
+            src: ['music/B/flash-2.mp3']
+        })
+    },
+    n:{
+        color: "#f5bf42",
+        sound: new Howl({
+            src: ['music/sounds/wipe.mp3']
+        })
+    },
+    m:{
+        color: "#f2ff00",
+        sound: new Howl({
+            src: ['music/sounds/moon.mp3']
+        })
+    }
+
+}//end keyData
+
+var circles = [];
+var count = 150;
+
+function onKeyDown(event) {
+    if(keyData[event.key]){
+    keyData[event.key].sound.play();
+    keyData[event.key].animation.call();
+    }
+    
+}
+
+
+function createSmallCircles(){
+
+    var maxPoint = new Point(view.size.width, view.size.height);
+    //creates a random number
+    
+    //multiply by max point so that the number will be on the screen
+    
+
+    // When a key is pressed, set the the circle of a random spot on the screen:
+    for (var i=0;i<200; i++){
+    var randomPoint = Point.random();
+    var point = maxPoint * randomPoint;
+    var newCircle = new Path.Circle(point, 10);
+    newCircle.scale(i/200);
+    newCircle.fillColor = "white";
+    newCircle.onFrame = function(event){
+        this.position.x += this.bounds.width / .2; 
+        console.log(this.position.x, view.size.width);
+        if(this.position.x > view.size.width){
+            this.remove();
+        }else if(this.area < 1){
+            this.remove();
+        }
+    
+    }
+    }
+    
+}//end createManyCircles
+function createCircle(){
+        //finds the max size of the screen
+    var maxPoint = new Point(view.size.width, view.size.height);
+    //creates a random number
+    var randomPoint = Point.random();
+    //multiply by max point so that the number will be on the screen
+    var point = maxPoint * randomPoint;
+
+    // When a key is pressed, set the the circle of a random spot on the screen:
+    var newCircle = new Path.Circle(point, 500);
+    newCircle.fillColor = keyData[event.key].color;
+
+    
+    newCircle.onFrame = function(event){
+        this.fillColor.hue += 5;
+        this.scale(.9);
+        
+    }
+}
+
+function createTriangle(){
+        //finds the max size of the screen
+        var maxPoint = new Point(view.size.width, view.size.height);
+    //creates a random number
+    var randomPoint = Point.random();
+    //multiply by max point so that the number will be on the screen
+    var point = maxPoint * randomPoint;
+
+    var triangle = new Path.RegularPolygon(new Point(point, 100), 3, 300);
+        triangle.fillColor = keyData[event.key].color;
+    
+    triangle.onFrame = function(event){
+        triangle.fillColor.hue += 5;
+        triangle.rotate(3);
+        triangle.scale(.9);
+        triangle.translate(3);
+    }
+}
+
+function createDecagon(){
+        //finds the max size of the screen
+        var maxPoint = new Point(view.size.width, view.size.height);
+    //creates a random number
+    var randomPoint = Point.random();
+    //multiply by max point so that the number will be on the screen
+    var point = maxPoint * randomPoint;
+
+    var decagon = new Path.RegularPolygon(new Point(point, 70), 10, 300);
+        decagon.fillColor = keyData[event.key].color;
+        
+    decagon.onFrame = function(event){
+        this.fillColor.hue += 5;
+        this.rotate(3);
+        this.scale(.9);
+
+    }
+}
+
+function createManyCircle(){
+        //finds the max size of the screen
+    var maxPoint = new Point(view.size.width, view.size.height);
+    //creates a random number
+    
+    //multiply by max point so that the number will be on the screen
+    
+
+    // When a key is pressed, set the the circle of a random spot on the screen:
+    for (var i=0;i<200; i++){
+    var randomPoint = Point.random();
+    var point = maxPoint * randomPoint;
+    var newCircle = new Path.Circle(point, 30);
+    newCircle.fillColor = keyData[event.key].color;
+    newCircle.onFrame = function(event){
+        console.log(this.area);
+        this.fillColor.hue += 10;
+        this.scale(.9);
+        this.translate(3);
+        if(this.area<100){
+            this.remove();
+        }
+    }
+    }
+    
+}
+
+function createIncreasingRectangle(){
+        //finds the max size of the screen
+    var maxPoint = new Point(view.size.width, view.size.height);
+    //creates a random number
+    var randomPoint = Point.random();
+    //multiply by max point so that the number will be on the screen
+    var point = maxPoint * randomPoint;
+
+    var midpoint = maxPoint/2;
+
+    var midpointX = view.size.width/2;
+    var midpointY = view.size.height/2;
+
+    // When a key is pressed, set the the circle of a random spot on the screen:
+    var rectangle = new Rectangle(new Point(midpointX, midpointY+300), new Point(750,300));
+
+    console.log("rectangle: " + rectangle);
+    var path = new Path.Rectangle(rectangle);
+    path.fillColor = keyData[event.key].color;
+
+    path.onFrame = function(event){
+        this.fillColor.hue += 10;
+        this.scale(1.09);
+        if(this.area > 15000000){
+            this.remove();
+        }
+    }    
+}
+
+
+function createSqiggles(){
+    // The amount of segment points we want to create:
+    var amount = [50, 100];
+    // The maximum height of the wave:
+    var height = [900, 60];
+
+    // Create a new path and style it:
+    var path2 = new Path({
+        // 80% black:
+        strokeColor: [1],
+        strokeWidth: 30,
+        strokeCap: 'square'
+    });
+    // Create a second path
+    var path = new Path({
+        // 80% black:
+        strokeColor: [0.4],
+        strokeWidth: 30,
+        strokeCap: 'square'
+    });
+
+    //Add segment points to the view
+    for (var i = 0; i <= amount[0]; i++) {
+        path.add(new Point(i / amount[0], 1) * view.size);
+       
+    }
+    for (var i=0; i<=amount[1];i++){
+        path2.add(new Point(i / amount[1], 1) * view.size);
+    }
+
+    path.onFrame = function(event){
+        path.position.x -=20;
+
+        for (var i = 0; i <= amount[0]; i++) {
+            var segment = path.segments[i];
+
+            // A cylic value between -1 and 1
+            var sinus = Math.cos(event.time * 3 + i);
+    
+            // Change the y position of the segment point:
+            segment.point.y = sinus * height[0] + 100;
+        }
+        path.smooth();
+
+    }
+
+    path2.onFrame = function(event){
+        path2.position.x +=20;
+        // Loop through the segments of the path:
+	    for (var i = 0; i <= amount[1]; i++) {
+		    var segment2 = path2.segments[i];
+		    // A cylic value between -1 and 1
+		    var sinus2 = Math.sin(event.time * 3 + i);
+		    // Change the y position of the segment point:
+		    segment2.point.y = sinus2 * height[1] + 400;
+	    }
+	    path2.smooth();
+    }
+
+}
+
+
+    </script>
+  
+</head>
+<body>
+        
+    <canvas id="myCanvas" resize></canvas>
+
+
+   
+</body>
+</html>
